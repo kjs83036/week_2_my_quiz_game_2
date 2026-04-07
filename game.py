@@ -14,12 +14,26 @@ class Game:
         print("3.퀴즈 목록보기")
         print("4.점수확인")
         print("5,종료")
-        self.get_user_input()
+        
 
-    def solve_quiz(self):
-        pass
+    def solve_quiz(self, data):
+        temp_score == 0
+        for i in data.quizzes:
+            print(i.question)
+            print(i.choice)
+            answer = self.get_user_input()
+            if answer == i.answer:
+                print("정담")
+                temp_score +=1
+            else:
+                print("오답")
+
+        print(f"점수 :{temp_score}")
+        if temp_score > data.bestscore:
+            print("최고점수 갱신")
 
     def add_quiz(self):
+        
         pass
 
     def show_quiz_list(self):
@@ -81,11 +95,22 @@ class Game:
                 json.dump(data, f)
         except:
             print("기타에러")
-            
         
     def run(self):
         try:
-            pass
+            self.show_menu()
+            input_number = self.get_user_input()
+            if input_number == 1:
+                self.solve_quiz()
+            elif input_number == 2:
+                self.add_quiz()
+            elif input_number == 3:
+                self.show_quiz_list()
+            elif input_number == 4:
+                self.show_bestscore()
+            elif input_number == 5:
+                quit()
+
         except EOFError:
             print("안전종료")
             quit()
