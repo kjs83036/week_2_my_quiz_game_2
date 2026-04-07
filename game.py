@@ -22,7 +22,7 @@ class Game:
     def solve_quiz(self, data):
         temp_score == 0
         for i in data.quizzes:
-            quiz = Quiz(i.question, i.choice, i.answer)
+            quiz = quiz(i.question, i.choice, i.answer)
             print(quiz.question)
             print(quiz.choice)
             answer = self.get_user_input()
@@ -47,7 +47,7 @@ class Game:
             input_second.append(input_temp)
         print("정답")
         input_third=self.get_user_input_number()
-        quiz = Quiz(input_first, input_second, input_third)
+        quiz = quiz(input_first, input_second, input_third)
         dict_quiz = {
             "question:" : input_first,
             "choices:" : input_second,
