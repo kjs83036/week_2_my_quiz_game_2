@@ -82,7 +82,7 @@ class Game:
         except:
             print("기타에러")
             
-            
+        
     def run(self):
         try:
             pass
