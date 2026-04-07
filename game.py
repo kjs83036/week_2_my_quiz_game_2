@@ -1,10 +1,13 @@
 import json
+import quiz
 
 class Game:
 
-    def __init__(self,quizzes, bestscore):
-        self.quizzes = quizzes
-        self.bestscore = bestscore
+    def __init__(self):
+        self.data = self.safe_file_load()
+
+        self.quizzes = self.data["quizzes"]
+        self.bestscore = self.data["bestscore"]
         
 
     def show_menu(self):
@@ -19,10 +22,11 @@ class Game:
     def solve_quiz(self, data):
         temp_score == 0
         for i in data.quizzes:
-            print(i.question)
-            print(i.choice)
+            quiz = Quiz(i.question, i.choice, i.answer)
+            print(quiz.question)
+            print(quiz.choice)
             answer = self.get_user_input()
-            if answer == i.answer:
+            if answer == quiz.answer:
                 print("정담")
                 temp_score +=1
             else:
@@ -33,8 +37,24 @@ class Game:
             print("최고점수 갱신")
 
     def add_quiz(self):
-        
-        pass
+        print("문제입력")
+        input_first =self.get_user_input_str()
+        print("선택지 제시 4번 입력")
+        input_second = []
+        for i in range(0,4):
+
+            input_temp=self.get_user_input_number()
+            input_second.append(input_temp)
+        print("정답")
+        input_third=self.get_user_input_number()
+        quiz = Quiz(input_first, input_second, input_third)
+        dict_quiz = {
+            "question:" : input_first,
+            "choices:" : input_second,
+            "answer:" : input_third
+        }
+        self.data["quizzes"].append[dict_quiz]
+        self.safe_file_saves(self.data)
 
     def show_quiz_list(self):
         pass
@@ -42,7 +62,7 @@ class Game:
     def show_bestscore(self):
         pass
 
-    def get_user_input(self):
+    def get_user_input_number(self):
         while(True):
 
             input = input()
@@ -59,6 +79,19 @@ class Game:
             else:
                 print("변환실패")
                 continue
+
+    def got_user_input_str(self):
+        while(True):
+
+            input = input()
+            if input == '':
+                print("빈입력")
+                continue
+            if input.digit():
+                print("숫자뿐입니다.")
+                continue
+            input = input()
+            return input
 
     def safe_file_load(self):
         try:
@@ -80,6 +113,7 @@ class Game:
             return data
         except:
             print("기타 에러")
+            quit()
 
     def safe_file_save(self, data):
         try:
@@ -95,6 +129,7 @@ class Game:
                 json.dump(data, f)
         except:
             print("기타에러")
+            quit()
         
     def run(self):
         try:
