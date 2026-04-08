@@ -1,5 +1,5 @@
 import json
-import quiz
+from quiz import Quiz
 
 class Game:
 
@@ -20,12 +20,12 @@ class Game:
         
 
     def solve_quiz(self, data):
-        temp_score == 0
+        temp_score = 0
         for i in data.quizzes:
-            quiz = quiz(i.question, i.choice, i.answer)
+            quiz = Quiz(i.question, i.choice, i.answer)
             print(quiz.question)
-            print(quiz.choice)
-            answer = self.get_user_input()
+            print(quiz.choices)
+            answer = self.get_user_input_number()
             if answer == quiz.answer:
                 print("정담")
                 temp_score +=1
@@ -47,14 +47,14 @@ class Game:
             input_second.append(input_temp)
         print("정답")
         input_third=self.get_user_input_number()
-        quiz = quiz(input_first, input_second, input_third)
+        quiz = Quiz(input_first, input_second, input_third)
         dict_quiz = {
             "question:" : input_first,
             "choices:" : input_second,
             "answer:" : input_third
         }
         self.data["quizzes"].append[dict_quiz]
-        self.safe_file_saves(self.data)
+        self.safe_file_save(self.data)
 
     def show_quiz_list(self):
         pass
@@ -65,32 +65,32 @@ class Game:
     def get_user_input_number(self):
         while(True):
 
-            input = input()
-            if input == '':
+            input_number_only = input()
+            if input_number_only == '':
                 print("빈입력")
                 continue
-            if input not in (1,2,3,4,5):
+            if input_number_only not in (1,2,3,4,5):
                 print("범위밖")
                 continue
-            if input.digit():
+            if input_number_only.isdigit():
 
-                strip_input = input.strip()
+                strip_input = input_number_only.strip()
                 return strip_input
             else:
                 print("변환실패")
                 continue
 
-    def got_user_input_str(self):
+    def get_user_input_str(self):
         while(True):
 
-            input = input()
-            if input == '':
+            input_str = input()
+            if input_str == '':
                 print("빈입력")
                 continue
-            if input.digit():
+            if input_str.isdigit():
                 print("숫자뿐입니다.")
                 continue
-            input = input()
+            input_str = input()
             return input
 
     def safe_file_load(self):
@@ -134,9 +134,9 @@ class Game:
     def run(self):
         try:
             self.show_menu()
-            input_number = self.get_user_input()
+            input_number = self.get_user_input_number()
             if input_number == 1:
-                self.solve_quiz()
+                self.solve_quiz(self.data)
             elif input_number == 2:
                 self.add_quiz()
             elif input_number == 3:
