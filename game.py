@@ -18,7 +18,6 @@ class Game:
         print("4.점수확인")
         print("5,종료")
         
-
     def solve_quiz(self, data):
         temp_score = 0
         for i in data.quizzes:
