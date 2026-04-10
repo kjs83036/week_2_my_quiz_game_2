@@ -57,7 +57,14 @@ class Game:
         self.safe_file_save(self.data)
 
     def show_quiz_list(self):
-        pass
+        
+        if self.quizzes == []:
+            print("퀴즈없음")
+            return
+
+        for i, q in enumerate(self.quizzes):
+            print(f"[{i}]. {q.question}")
+
 
     def show_bestscore(self):
         pass
