@@ -18,7 +18,6 @@ class Game:
         print("4.점수확인")
         print("5,종료")
         
-
     def solve_quiz(self, data):
         temp_score = 0
         for i in data.quizzes:
@@ -35,6 +34,8 @@ class Game:
         print(f"점수 :{temp_score}")
         if temp_score > data.bestscore:
             print("최고점수 갱신")
+            self.bestscore = temp_score
+            self.data["bestscore"] = self.bestscore
 
     def add_quiz(self):
         print("문제입력")
@@ -128,7 +129,6 @@ class Game:
 
     def safe_file_save(self, data):
         try:
-
             with open('state.json') as f:
                 json.dump(data, f)
         except json.JSONDecodeError:
