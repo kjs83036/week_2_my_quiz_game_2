@@ -67,7 +67,11 @@ class Game:
 
 
     def show_bestscore(self):
-        pass
+        if self.bestscore == 0:
+            print("퀴즈를 풀지않았거나 0점입니다")
+            return
+        
+        print(self.bestscore)
 
     def get_user_input_number(self):
         while(True):
