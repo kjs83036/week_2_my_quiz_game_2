@@ -5,7 +5,8 @@ class Quiz:
         self.choices = choices
         self.answer = answer
 
-    def show_question(self):
-        pass
-
-    
+    def __getitem__(self, key):
+        return getattr(self, key)
+ 
+    def __setitem__(self, key, value):
+        setattr(self, key, value)
