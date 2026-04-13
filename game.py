@@ -105,18 +105,35 @@ class Game:
                     continue
                 else:
                     return input_number_int
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt 안전종료")
+                self.safe_file_save(self.data)
+                quit()
+            except EOFError:
+                print("EOFError 안전종료")
+                self.safe_file_save(self.data)
+                quit()
             except ValueError:
                 print("숫자입력")
                 continue
 
     def get_user_input_str(self, string="문자입력"):
         while(True):
+            try:
+                input_str = input(string)
+                if input_str == '':
+                    print("빈입력")
+                    continue
+                return input_str
+            except EOFError:
+                print("EOFError 안전종료")
+                self.safe_file_save(self.data)
+                quit()
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt 안전종료")
+                self.safe_file_save(self.data)
+                quit()
 
-            input_str = input(string)
-            if input_str == '':
-                print("빈입력")
-                continue
-            return input_str
 
     def safe_file_load(self):
         try:
@@ -151,6 +168,7 @@ class Game:
                 data = json.load(f)
             with open('./state.json', 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False)
+        
         except:
             print("기타에러")
             quit()
@@ -175,6 +193,10 @@ class Game:
 
             except EOFError:
                 print("EOFError 안전종료")
+                self.safe_file_save(self.data)
+                quit()
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt 안전종료")
                 self.safe_file_save(self.data)
                 quit()
             except Exception as e:
