@@ -344,6 +344,8 @@ project/
 - list![list](./images/list.png)
 - score![score](./images/score.png)
 - quit![quit](./images/quit.png)
+- python --version![python version](./images/python_version.png)
+- git log --oneline --graph 결과 스크린샷![git log --oneline --graph 결과 스크린샷](./images/git_log.png)
 
 
 
