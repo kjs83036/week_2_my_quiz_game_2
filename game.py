@@ -43,21 +43,24 @@ class Game:
         print("문제입력")
         input_first =self.get_user_input_str()
         print("선택지 제시 4번 입력")
-        input_second = []
+        input_second_list = []
         for i in range(0,4):
             print(f"{i+1}번 선택지 입력")
 
             input_temp=self.get_user_input_str()
-            input_second.append(input_temp)
+            input_second_list.append(input_temp)
         print("정답 입력")
         input_third=self.get_user_input_number("정답 번호를 입력하세요1~4: ",1,4)
-        #quiz = Quiz(input_first, input_second, input_third)
-        dict_quiz = {
-            "question" : input_first,
-            "choices" : input_second,
-            "answer" : input_third
-        }
-        self.data["quizzes"].append(dict_quiz)
+        quiz = Quiz(input_first, input_second_list, input_third)
+        quiz["question"] = input_first
+        quiz["choices"] = input_second_list
+        quiz["answer"] = input_third
+        # dict_quiz = {
+        #     "question" : input_first,
+        #     "choices" : input_second_list,
+        #     "answer" : input_third
+        # }
+        self.data["quizzes"].append(quiz.__dict__)
         self.quizzes = self.data["quizzes"]
         self.safe_file_save(self.data)
 
@@ -81,7 +84,7 @@ class Game:
             print("퀴즈를 풀지않았거나 0점입니다")
             return
         
-        print(self.bestscore)
+        print(f"최고점수 : {self.bestscore}")
 
     def get_user_input_number(self, string="숫자입력", min_val=0, max_val=5):
         while(True):
@@ -161,6 +164,7 @@ class Game:
                 elif input_number == 4:
                     self.show_bestscore()
                 elif input_number == 5:
+                    print("종료")
                     self.safe_file_save(self.data)
                     quit()
 
@@ -173,6 +177,6 @@ class Game:
                 self.safe_file_save(self.data)
                 quit()
             except :
-                continue
+                return
         
 
