@@ -174,7 +174,7 @@ class Game:
                     quit()
 
             except EOFError:
-                print("안전종료")
+                print("EOFError 안전종료")
                 self.safe_file_save(self.data)
                 quit()
             except Exception as e:
