@@ -6,7 +6,13 @@ class Game:
     def __init__(self):
         self.data = self.safe_file_load()
 
-        self.quizzes = self.data["quizzes"]
+        self.quizzes = []
+        for q in self.data["quizzes"]:
+            quiz = Quiz(q["question"], q["choices"], q["answer"])
+            q["question"] = quiz.question
+            q["choices"] = quiz.choices
+            q["answer"] = quiz.answer
+            self.quizzes.append(q)
         self.bestscore = self.data["bestscore"]
         
 
@@ -20,20 +26,19 @@ class Game:
         
     def solve_quiz(self, data):
         temp_score = 0
-        for i in data["quizzes"]:
-            quiz = Quiz(i["question"], i["choices"], i["answer"])
-            print(quiz.question)
+        for q in self.quizzes:
+            print(q.question)
             for j in range(0,4):
-                print(f"{j+1}. {quiz.choices[j]}")
+                print(f"{j+1}. {q.choices[j]}")
             answer = self.get_user_input_number("답변을 입력하세요1~4: ",1,4)
-            if answer == quiz.answer:
+            if answer == q.answer:
                 print("정답")
                 temp_score +=1
             else:
                 print("오답")
 
         print(f"점수 :{temp_score}")
-        if temp_score > data["bestscore"]:
+        if temp_score > self.bestscore:
             print("최고점수 갱신")
             self.bestscore = temp_score
             self.data["bestscore"] = self.bestscore
@@ -60,8 +65,8 @@ class Game:
         #     "choices" : input_second_list,
         #     "answer" : input_third
         # }
+        self.quizzes.append(quiz)
         self.data["quizzes"].append(quiz.__dict__)
-        self.quizzes = self.data["quizzes"]
         self.safe_file_save(self.data)
 
     def show_quiz_list(self):
@@ -176,7 +181,6 @@ class Game:
                 print(f"알 수 없는 오류 발생: {e}")
                 self.safe_file_save(self.data)
                 quit()
-            except :
-                return
+
         
 

@@ -10,9 +10,3 @@ class Quiz:
  
     def __setitem__(self, key, value):
         setattr(self, key, value)
-
-    def __iter__(self):
-        return iter(self.__dict__)
- 
-    def __len__(self):
-        return len(self.__dict__)
