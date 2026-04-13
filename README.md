@@ -338,12 +338,12 @@ project/
 
 ## screen shot
 
-- ![menu](./images/menu.png)
-- ![solve](./images/solve.png)
-- ![add](./images/add.png)
-- ![list](./images/list.png)
-- ![score](./images/score.png)
-- ![quit](./images/quit.png)
+- menu![menu](./images/menu.png)
+- solve![solve](./images/solve.png)
+- add![add](./images/add.png)
+- list![list](./images/list.png)
+- score![score](./images/score.png)
+- quit![quit](./images/quit.png)
 
 
 
