@@ -16,23 +16,23 @@ class Game:
         print("2.퀴즈추가")
         print("3.퀴즈 목록보기")
         print("4.점수확인")
-        print("5,종료")
+        print("5.종료")
         
     def solve_quiz(self, data):
         temp_score = 0
-        for i in data.quizzes:
-            quiz = Quiz(i.question, i.choice, i.answer)
+        for i in data["quizzes"]:
+            quiz = Quiz(i["question"], i["choices"], i["answer"])
             print(quiz.question)
             print(quiz.choices)
             answer = self.get_user_input_number()
             if answer == quiz.answer:
-                print("정담")
+                print("정답")
                 temp_score +=1
             else:
                 print("오답")
 
         print(f"점수 :{temp_score}")
-        if temp_score > data.bestscore:
+        if temp_score > data["bestscore"]:
             print("최고점수 갱신")
             self.bestscore = temp_score
             self.data["bestscore"] = self.bestscore
@@ -50,11 +50,11 @@ class Game:
         input_third=self.get_user_input_number()
         quiz = Quiz(input_first, input_second, input_third)
         dict_quiz = {
-            "question:" : input_first,
-            "choices:" : input_second,
-            "answer:" : input_third
+            "question" : input_first,
+            "choices" : input_second,
+            "answer" : input_third
         }
-        self.data["quizzes"].append[dict_quiz]
+        self.data["quizzes"].append(dict_quiz)
         self.safe_file_save(self.data)
 
     def show_quiz_list(self):
@@ -64,7 +64,7 @@ class Game:
             return
 
         for i, q in enumerate(self.quizzes):
-            print(f"[{i}]. {q.question}")
+            print(f"[{i}]. {q['question']}")
 
 
     def show_bestscore(self):
@@ -76,20 +76,20 @@ class Game:
 
     def get_user_input_number(self):
         while(True):
+            try:
 
-            input_number_only = input()
-            if input_number_only == '':
-                print("빈입력")
-                continue
-            if input_number_only not in (1,2,3,4,5):
-                print("범위밖")
-                continue
-            if input_number_only.isdigit():
-
-                strip_input = input_number_only.strip()
-                return strip_input
-            else:
-                print("변환실패")
+                input_number_only = input()
+                input_number_int = int(input_number_only)
+                if input_number_int == '':
+                    print("빈입력")
+                    continue
+                if input_number_int not in (0,1,2,3,4,5):
+                    print("범위밖")
+                    continue
+                else:
+                    return input_number_int
+            except ValueError:
+                print("숫자입력")
                 continue
 
     def get_user_input_str(self):
@@ -99,11 +99,7 @@ class Game:
             if input_str == '':
                 print("빈입력")
                 continue
-            if input_str.isdigit():
-                print("숫자뿐입니다.")
-                continue
-            input_str = input()
-            return input
+            return input_str
 
     def safe_file_load(self):
         try:
@@ -129,15 +125,15 @@ class Game:
 
     def safe_file_save(self, data):
         try:
-            with open('state.json') as f:
-                json.dump(data, f)
+            with open('state.json', 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False)
         except json.JSONDecodeError:
             print("json형식오류")
             print("기본데이터로 저장")
             with open('basic.json') as f:
                 data = json.load(f)
-            with open('state.json') as f:
-                json.dump(data, f)
+            with open('state.json', 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False)
         except:
             print("기타에러")
             quit()
@@ -161,6 +157,7 @@ class Game:
             print("안전종료")
             quit()
         except:
-            pass
+            print("알수없는에러")
+            quit()
         
 
