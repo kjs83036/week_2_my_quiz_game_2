@@ -338,13 +338,12 @@ project/
 
 ## screen shot
 
-- test![test](./images/test.png)
 - ![menu](./images/menu.png)
-- ![add_quiz](./images/add_quiz.png)
+- ![solve](./images/solve.png)
+- ![add](./images/add.png)
+- ![list](./images/list.png)
 - ![score](./images/score.png)
-- ![git_log](./images/git_log.png)
-- ![git_config](./images/git_config.png)
-- ![python_version](./images/python_version.png)
+- ![quit](./images/quit.png)
 
 
 
