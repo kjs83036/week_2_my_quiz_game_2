@@ -23,8 +23,9 @@ class Game:
         for i in data["quizzes"]:
             quiz = Quiz(i["question"], i["choices"], i["answer"])
             print(quiz.question)
-            print(quiz.choices)
-            answer = self.get_user_input_number()
+            for i in range(0,4):
+                print(f"{i+1}. {quiz.choices[i]}")
+            answer = self.get_user_input_number("답변을 입력하세요1~4: ",1,4)
             if answer == quiz.answer:
                 print("정답")
                 temp_score +=1
@@ -43,12 +44,13 @@ class Game:
         print("선택지 제시 4번 입력")
         input_second = []
         for i in range(0,4):
+            print(f"{i+1}번 선택지 입력")
 
-            input_temp=self.get_user_input_number()
+            input_temp=self.get_user_input_str()
             input_second.append(input_temp)
-        print("정답")
-        input_third=self.get_user_input_number()
-        quiz = Quiz(input_first, input_second, input_third)
+        print("정답 입력")
+        input_third=self.get_user_input_number("정답 번호를 입력하세요1~4: ",1,4)
+        #quiz = Quiz(input_first, input_second, input_third)
         dict_quiz = {
             "question" : input_first,
             "choices" : input_second,
@@ -64,7 +66,12 @@ class Game:
             return
 
         for i, q in enumerate(self.quizzes):
-            print(f"[{i}]. {q['question']}")
+            print(f"[{i+1}]. {q['question']}")
+            print("선택지")
+            for j, c in enumerate(q["choices"]):
+                print(f"{j+1}. {c}")
+            print(f"정답 : {q['answer']}")
+            
 
 
     def show_bestscore(self):
@@ -74,16 +81,17 @@ class Game:
         
         print(self.bestscore)
 
-    def get_user_input_number(self):
+    def get_user_input_number(self, string="숫자입력", min_val=0, max_val=5):
         while(True):
             try:
 
-                input_number_only = input()
+                input_number_only = input(string)
+                input_number_only = input_number_only.strip()
                 input_number_int = int(input_number_only)
                 if input_number_int == '':
                     print("빈입력")
                     continue
-                if input_number_int not in (0,1,2,3,4,5):
+                if input_number_int < min_val or input_number_int > max_val:
                     print("범위밖")
                     continue
                 else:
@@ -92,10 +100,10 @@ class Game:
                 print("숫자입력")
                 continue
 
-    def get_user_input_str(self):
+    def get_user_input_str(self, string="문자입력"):
         while(True):
 
-            input_str = input()
+            input_str = input(string)
             if input_str == '':
                 print("빈입력")
                 continue
@@ -104,13 +112,13 @@ class Game:
     def safe_file_load(self):
         try:
             
-            with open('state.json') as f:
+            with open('./state.json') as f:
                 data = json.load(f)
             
             return data
         except FileNotFoundError:
             print("파일없음")
-            with open('basic.json') as f:
+            with open('./basic.json') as f:
                 data = json.load(f)
             return data
         
@@ -125,39 +133,43 @@ class Game:
 
     def safe_file_save(self, data):
         try:
-            with open('state.json', 'w', encoding='utf-8') as f:
+            with open('./state.json', 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False)
         except json.JSONDecodeError:
             print("json형식오류")
             print("기본데이터로 저장")
-            with open('basic.json') as f:
+            with open('./basic.json') as f:
                 data = json.load(f)
-            with open('state.json', 'w', encoding='utf-8') as f:
+            with open('./state.json', 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False)
         except:
             print("기타에러")
             quit()
         
     def run(self):
-        try:
-            self.show_menu()
-            input_number = self.get_user_input_number()
-            if input_number == 1:
-                self.solve_quiz(self.data)
-            elif input_number == 2:
-                self.add_quiz()
-            elif input_number == 3:
-                self.show_quiz_list()
-            elif input_number == 4:
-                self.show_bestscore()
-            elif input_number == 5:
-                quit()
+        while True:
+            try:
+                self.show_menu()
+                input_number = self.get_user_input_number()
+                if input_number == 1:
+                    self.solve_quiz(self.data)
+                elif input_number == 2:
+                    self.add_quiz()
+                elif input_number == 3:
+                    self.show_quiz_list()
+                elif input_number == 4:
+                    self.show_bestscore()
+                elif input_number == 5:
+                    self.safe_file_save(self.data)
+                    quit()
 
-        except EOFError:
-            print("안전종료")
-            quit()
-        except:
-            print("알수없는에러")
-            quit()
+            except EOFError:
+                print("안전종료")
+                self.safe_file_save(self.data)
+                quit()
+            except:
+                print("안전종료")
+                self.safe_file_save(self.data)
+                quit()
         
 
