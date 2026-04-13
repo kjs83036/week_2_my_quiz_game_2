@@ -9,10 +9,10 @@ class Game:
         self.quizzes = []
         for q in self.data["quizzes"]:
             quiz = Quiz(q["question"], q["choices"], q["answer"])
-            q["question"] = quiz.question
-            q["choices"] = quiz.choices
-            q["answer"] = quiz.answer
-            self.quizzes.append(q)
+            quiz.question = q["question"]
+            quiz.choices = q["choices"]
+            quiz.answer = q["answer"]
+            self.quizzes.append(quiz)
         self.bestscore = self.data["bestscore"]
         
 
