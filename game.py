@@ -23,8 +23,8 @@ class Game:
         for i in data["quizzes"]:
             quiz = Quiz(i["question"], i["choices"], i["answer"])
             print(quiz.question)
-            for i in range(0,4):
-                print(f"{i+1}. {quiz.choices[i]}")
+            for j in range(0,4):
+                print(f"{j+1}. {quiz.choices[j]}")
             answer = self.get_user_input_number("답변을 입력하세요1~4: ",1,4)
             if answer == quiz.answer:
                 print("정답")
@@ -37,6 +37,7 @@ class Game:
             print("최고점수 갱신")
             self.bestscore = temp_score
             self.data["bestscore"] = self.bestscore
+            self.safe_file_save(self.data)
 
     def add_quiz(self):
         print("문제입력")
@@ -57,6 +58,7 @@ class Game:
             "answer" : input_third
         }
         self.data["quizzes"].append(dict_quiz)
+        self.quizzes = self.data["quizzes"]
         self.safe_file_save(self.data)
 
     def show_quiz_list(self):
@@ -84,13 +86,12 @@ class Game:
     def get_user_input_number(self, string="숫자입력", min_val=0, max_val=5):
         while(True):
             try:
-
                 input_number_only = input(string)
-                input_number_only = input_number_only.strip()
-                input_number_int = int(input_number_only)
-                if input_number_int == '':
+                if input_number_only == '':
                     print("빈입력")
                     continue
+                input_number_only = input_number_only.strip()
+                input_number_int = int(input_number_only)
                 if input_number_int < min_val or input_number_int > max_val:
                     print("범위밖")
                     continue
@@ -112,13 +113,13 @@ class Game:
     def safe_file_load(self):
         try:
             
-            with open('./state.json') as f:
+            with open('./state.json', encoding='utf-8') as f:
                 data = json.load(f)
             
             return data
         except FileNotFoundError:
             print("파일없음")
-            with open('./basic.json') as f:
+            with open('./basic.json', encoding='utf-8') as f:
                 data = json.load(f)
             return data
         
@@ -167,9 +168,11 @@ class Game:
                 print("안전종료")
                 self.safe_file_save(self.data)
                 quit()
-            except:
-                print("안전종료")
+            except Exception as e:
+                print(f"알 수 없는 오류 발생: {e}")
                 self.safe_file_save(self.data)
                 quit()
+            except :
+                continue
         
 
