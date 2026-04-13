@@ -346,7 +346,7 @@ project/
 - quit![quit](./images/quit.png)
 - python --version![python version](./images/python_version.png)
 - git log --oneline --graph 결과 스크린샷![git log --oneline --graph 결과 스크린샷](./images/git_log.png)
-- git_clone![](./images/git_clon.png)
+- git_clone![](./images/git_clone.png)
 - git_pull![](./images/git_pull.png)
 
 
