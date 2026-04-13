@@ -116,6 +116,10 @@ class Game:
             except ValueError:
                 print("숫자입력")
                 continue
+            except Exception as e:
+                print(f"알 수 없는 오류 발생: {e}")
+                self.safe_file_save(self.data)
+                quit()
 
     def get_user_input_str(self, string="문자입력"):
         while(True):
@@ -131,6 +135,10 @@ class Game:
                 quit()
             except KeyboardInterrupt:
                 print("KeyboardInterrupt 안전종료")
+                self.safe_file_save(self.data)
+                quit()
+            except Exception as e:
+                print(f"알 수 없는 오류 발생: {e}")
                 self.safe_file_save(self.data)
                 quit()
 
